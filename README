@@ -1,0 +1,151 @@
+###########################################################################
+#
+# ABC-X : A Configurable Generalized Artificial Bee Colony Algorithm
+#
+###########################################################################
+
+Version: 1.0
+Author:  Dogan Aydin, Gurcan Yavuz and Thomas Stuetzle
+Copyright (c) Doğan Aydın,  Gürcan Yavuz and Thomas Stuetzle, 2016
+
+============
+Installation
+============
+
+The software was developed in C under Linux, using the GNU 4.2.4
+gcc compiler and extensively tested in this environment. The software
+is distributed as a gzipped tar file.
+
+At first, GNU Scientific Library should be installed into computer. Then, 
+to install the code, expand the archive ABCX.v1.0.tar.gz by typing:
+
+tar -zxvf ABCX.v1.0.tar.gz
+
+The software will be unpacked in a new folder called ABC-X 
+
+To compile it for the first time under Linux just type:
+
+autoreconf -fvi
+./configure
+make
+
+The executable 'abc' will be produced. To compile the source code 
+again, just type:
+
+make
+
+====================
+PARAMETERS FOR ABC-X
+====================
+
+REQUIRED PARAMETERS FOR THE ALGORITHM 
+=====================================
+
+--fes (unsigned int): maximum number of function evaluations
+--seed (double): random number generator seed value
+
+--limitF (unsigned int): limit factor parameter for each foodsource 
+
+--nfoods (unsigned int): the number of food sources. The population will be 2 x nfoods. Algorithm creates nfoods employed bees and nfoods onlooker bees. 
+
+
+--iStr (unsigned int): Initialization strategy. 1: Default 2: Chaotic
+--oinit (unsigned int): Opposition-based initialization. 0: Do not use 1: Use
+ 
+--sStr (unsigned int): Scout Bee Strategy: 1: DEFAULT 2:BABC 3:CABC 4: IABC	5:ERABC scout bees step strategies
+
+--dmro: how many dimensions will be changed in employed bees search eqution? 0: only one 1: for some fix dimensions 2: dimensions between two values 
+--dmre: how many dimensions will be changed in employed bees search eqution? 0: only one 1: for some fix dimensions 2: dimensions between two values
+          
+--ipop (unsigned int): incremental population strategy will be used or not. 0: Do not use 1: Use
+--pStr (unsigned int): selection probability strategy: 1: Default 2: Weighted 3: Rank based
+
+--firstTO	These parameters are terms of search equation in both employed bees and onlooker bees step. It takes the values 1,2 or 3.
+--firstTE 	Check the paper for the those 3 options.
+
+--fourthTO
+--fourthTE	(unsigned int)
+--thirdTO 	These parameters are terms of search equation in both employed bees and onlooker bees step. It takes the values 1,2,3,4,5 or 6.
+--thirdTE	Check the paper for the those 6 options.
+--secondTO
+--secondTE 
+
+--dr3o
+--dr2o		(unsigned int)
+--dr1o		The range of Phi parameter will be default or not. 0: Default (the range will be [-1,1]) 1: Scalable (the range can be [-l,+l])
+--dr3e
+--dr2e
+--dr1e  
+
+
+OPTIONAL (CONDITIONAL) PARAMETERS FOR THE ALGORITHM 
+===================================================
+
+--l3o
+--l2o
+--l1o		(double)
+--l3e		Scalability factor ([-l,+l]) of each terms in search equations for employed bees and onlooker bees step.
+--l2e
+--l1e
+
+--growthperiod (unsigned int): how often will a new food source added to population if the incremental population strategy is used
+--maxfoodsize  (unsigned int): what will be the maximum population size if the incremental population strategy is used
+--shakingfactor (double): what will be the replacement factor (10^shakingfactor) for newly added food source
+ 						  if the incremental population strategy is used
+
+--sp (double) : a parameter in ranked based selection probability
+
+--chaoticmap (unsigned int): The chaotic map ID. 1|2|3|4|5|6|7|8
+--K  (unsigned int): the number of iterations in chaotic number generation if chaotic initialization or a chaotic search procedures is used
+--mu (double):  a parameter in one of the chaotic map. It can be used if chaotic initialization or a chaotic search procedures is selected
+
+--MRO		(int)
+--MRE		if the number of mutated dimension in a search eqution is more than one and fix, these parameters define that values.		
+
+--MROr  	(int)	if the number of mutated dimension in a search eqution is more than one but with a range, then these parameters
+--MREr				define that range with MRO and MRE (i.e. The number of mutated dimension will be selected in range [MRO, MRO+MROr]) 		
+--wMin: 	(double) wMin and wMax are the w_min and w_max parameters in the paper if BABC like scout bee strategy is selected
+--wMax: 
+
+
+
+PARAMETERS FOR THE PROBLEMS (REQUIRED)
+======================================
+
+--maxrange (double): maximum range of the test functions
+--minrange (double): minimum range of the test functions
+--dimensions (unsigned int): dimension of the tes functions
+--problemID (0-24): problem (test function) ID. 0-18 for SOCO functions, 0-24 for CEC2005 functions, 0-49 for MIXTURE functions
+--competitionID (0-3): competition ID. 0: CEC2005, 1: CEC2008, 2: SOCO, 3: MIXTURE (50 functions used in the paper)
+
+OTHER PARAMETERS 
+================
+--version 	Prints the version of the code
+-h			Prints the help document
+
+================
+SAMPLE EXECUTION
+================
+
+./abc --limitF 0.7245 --nfoods 13 --dr1e 1 --dr2e 1 --dr3e 0 --dr1o 1 --dr2o 0 --dr3o 0 --firstTE 2 --secondTE 3 --thirdTE 1 --fourthTE 1 --firstTO 3 --secondTO 3 --thirdTO 2 --fourthTO 3 --chaoticmap 7 --pStr 1 --ipop 1 --oinit 1 --dmre 2 --dmro 0 --sStr 2 --iStr 2 --l1e 2.1572 --l2e 1.1687 --l1o 1.9220 --wMax 0.9942 --wMin 0.2796 --MRE  3 --MREr  2 --maxfoodsize 25 --growthperiod 17 --seed $RANDOM --dimensions 10 --fes 100000 --K 100 --mu 0.7 --problemID 0 --minrange -100 --maxrange 100 --competitionID 3
+
+=======
+OUTPUT
+=======
+
+ABC-X version 1.0 writes its output to the console. It reports the development
+of the best solution value over time in the following format:
+
+#function_evaluations	solution_value	elapsed_time  
+
+The first column reports the number of function evaluations and third column
+reports the elapsed time that have been required for finding a solution of the value printed in the second column. 
+
+A line is printed only when a better solution than the current one is found.
+
+Thank you for your interest in this work. If you have any questions about the 
+code or bugs to report, please send an email to:
+
+Doğan Aydın
+dogan.aydin@dpu.edu.tr
+
